@@ -15,6 +15,9 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+  
+  <IR_PROTOCOL><CODE><BITS><PULSES>
+  
 */
 #include <IRremote.h>
 
@@ -28,7 +31,7 @@ const int RED_PIN = LED_BUILTIN;
 int DEBUG_ON=0;
 
 int PROTOCOL;    
-int CODE;
+long int CODE;
 int NBIT;
 int NPULSE;
 
@@ -60,12 +63,12 @@ void setup() {
 int REMOTE_CONTROL(int P,int C,int Nb,int Np)
 {digitalWrite(RED_PIN,1);
  for (int i = 0; i < Np; i++)
-         {switch (PROTOCOL)  
-                  {case 0:OPTIKEY_HC.sendRaw(C, Nb);
+         {switch (P)  
+                  {case 0:OPTIKEY_HC.sendRaw(C,Nb,Nb); // no use this !!! first reading documentation of  IR library 
                    break;
                    case 1:OPTIKEY_HC.sendLG(C, Nb);
                    break;
-                   case 2:OPTIKEY_HC.sendNEC(C, Nb);
+                   case 2:OPTIKEY_HC.sendNEC(C, Nb);  // verificated con LG TV and UZOPI radio
                    break;
                    case 3:OPTIKEY_HC.sendRC5(C, Nb);
                    break;
@@ -75,11 +78,11 @@ int REMOTE_CONTROL(int P,int C,int Nb,int Np)
                    break;           
                    case 6:OPTIKEY_HC.sendPanasonic(C, Nb);
                    break;           
-                   case 7:OPTIKEY_HC.sendJVC(C, Nb);
+                   case 7:OPTIKEY_HC.sendJVC(C,Nb,1);
                    break;           
                    case 8:OPTIKEY_HC.sendSharp(C, Nb);
                    break; 
-                    case 8:OPTIKEY_HC.sendSansung(C, Nb);
+                   case 9:OPTIKEY_HC.sendSAMSUNG(C, Nb);
                    break;                  
                    };  
                    delay(P_DELAY);    
@@ -88,8 +91,7 @@ int REMOTE_CONTROL(int P,int C,int Nb,int Np)
  digitalWrite(RED_PIN,0);    
 };  
 
-void loop() {
-  
+void loop() {    
    if (Serial.available())  {
     char c = Serial.read(); 
     if (c == '\n') {SPROTOCOL="";
@@ -114,7 +116,7 @@ void loop() {
                        Serial.println(PROTOCOL);
                        Serial.print("code = ");
                        Serial.println(CODE);
-                        Serial.print("nbits = ");
+                       Serial.print("nbits = ");
                        Serial.println(NBIT);
                        Serial.print("npulse = ");
                        Serial.println(NPULSE);
