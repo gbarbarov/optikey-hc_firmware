@@ -1,6 +1,7 @@
 # optikey-hc_firmware
-OptiKey HC IR Remote Control DIY version
-Firmware for experimental version of Optikey that incorporates hardware control
+OptiKey HC IR Remote Control DIY version.
+
+Firmware for experimental Optikey_HC gazetrack keyboard that incorporates hardware control
 using an Arduino Nano board as an infra-red remote control emulator.
 
                       +-----+
